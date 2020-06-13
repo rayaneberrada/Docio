@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+*{
+    margin: 0;
+}
+
+.wrapper {
+        display: grid;
+        background-color: #fff;
+        color: #444;
+    }
+
+.box {
+    background-color: #444;
+    color: #fff;
+    font-size: 150%;
+
+}
+
+.a {
+    grid-column: 1 / 7;
+    font-family: 'Pinyon Script', cursive;
+    font-size: 5em;
+    
+}
+
+.a > p {
+    display: flex;
+    justify-content: center;
+}
+
+.nav {
+    grid-column: 1 / 7 ;
+    background-color: rgb(117,117,117);
+    display: flex;
+}
+
+.guess{
+    background-image: radial-gradient(closest-side ellipse at center, white, rgb(242, 248, 252));
+    font-family: 'Cormorant Garamond', serif;
+    grid-column: 1 / 7 ;
+}
+
+.guess > h1{
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+#answers {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items:center;
+}
+#answers > button{
+    border: solid;
+    text-align: center;
+    border-radius: 25px;
+    width: 70%;
+    font-size: 2em;
+    box-shadow: 10px 5px 5px grey;
+    margin: 30px;
+    background-color: white;
+}
+
+#answers > button:hover{
+    filter: brightness(120%);
+}
+
+.e {
+    grid-column: 1 / 7;
+}
+

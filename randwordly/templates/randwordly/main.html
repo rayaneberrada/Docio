@@ -1,0 +1,40 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&display=swap" rel="stylesheet"> 
+	<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300&display=swap" rel="stylesheet"> 
+	<link rel="stylesheet" type="text/css" href="{% static 'randwordly/main.css' %}">
+	
+	<title></title>
+</head>
+<body>
+
+
+
+<div class="wrapper">
+  <div class="box a">
+  	<p>Docio</p> 
+  </div>
+  <div class="box nav">
+  	<div id="demo"> Inscription</div>
+  	<div> Menu deux</div>
+  </div>
+  <div class="guess">
+  	<h1 id="word">{{word}}</h1>
+  	<div id="answers">
+  		{% for definition in definitions %}
+  			{% if "right_answer" in definition %}
+  				<button class="answer" id="True">{{definition.description}}</button>
+  			{% else %}
+  				<button class="answer">{{definition.description}}</button>
+  			{% endif %}
+  		{% endfor %}
+  	</div>
+  </div>
+  <div class="box e">E</div>
+</div>
+<script src="{% static 'randwordly/main.js' %}"></script>
+</body>
+</html>
