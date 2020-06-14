@@ -31,7 +31,6 @@ def index(request):
     context = {"word":str(word).capitalize(), "definitions":random_definitions}
 
     if request.method == 'POST':
-        print("yes man")
         return JsonResponse(context)
 
     return render(request, 'randwordly/main.html', context)

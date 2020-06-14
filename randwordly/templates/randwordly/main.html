@@ -23,15 +23,23 @@
   </div>
   <div class="guess">
   	<h1 id="word">{{word}}</h1>
-  	<div id="answers">
-  		{% for definition in definitions %}
-  			{% if "right_answer" in definition %}
-  				<button class="answer" id="True">{{definition.description}}</button>
-  			{% else %}
-  				<button class="answer">{{definition.description}}</button>
-  			{% endif %}
-  		{% endfor %}
-  	</div>
+  	<section id="definition">
+  		<div class="arrow left">
+			<img hidden src="{% static 'randwordly/arrow.png' %}">
+  		</div>
+	  	<div id="answers">
+	  		{% for definition in definitions %}
+	  			{% if "right_answer" in definition %}
+	  				<button class="answer" id="True">{{definition.description}}</button>
+	  			{% else %}
+	  				<button class="answer">{{definition.description}}</button>
+	  			{% endif %}
+	  		{% endfor %}
+	  	</div>
+	  	<div class="arrow right">
+			<img hidden src="{% static 'randwordly/arrow.png' %}">
+	  	</div>
+  	</section>
   </div>
   <div class="box e">E</div>
 </div>
