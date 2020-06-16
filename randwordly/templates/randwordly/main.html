@@ -10,37 +10,42 @@
 	<title></title>
 </head>
 <body>
-
-
-
 <div class="wrapper">
   <div class="box a">
   	<p>Docio</p> 
   </div>
-  <div class="box nav">
-  	<div id="demo"> Inscription</div>
-  	<div> Menu deux</div>
-  </div>
-  <div class="guess">
-  	<h1 id="word">{{word}}</h1>
-  	<section id="definition">
-  		<div class="arrow left">
-			<img hidden src="{% static 'randwordly/arrow.png' %}">
-  		</div>
-	  	<div id="answers">
-	  		{% for definition in definitions %}
-	  			{% if "right_answer" in definition %}
-	  				<button class="answer" id="True">{{definition.description}}</button>
-	  			{% else %}
-	  				<button class="answer">{{definition.description}}</button>
-	  			{% endif %}
-	  		{% endfor %}
-	  	</div>
-	  	<div class="arrow right">
-			<img hidden src="{% static 'randwordly/arrow.png' %}">
-	  	</div>
-  	</section>
-  </div>
+  <nav>
+  	<div>Compte</div>
+  	<div><a href="{% url 'randwordly:random' %}"> Random </a></div>
+  	<div><a href="{% url 'registration:register' %}"> Inscription </a></div>
+  	{% if not user.is_authenticated %}
+  		<div><a href="{% url 'registration:login' %}"> Connexion </a></div>
+  	{% else %}
+		<div><a href="{% url 'registration:logout' %}"> Deconnexion </a></div>
+  	{% endif %}
+  </nav>
+  {% block content %}
+	  <div class="guess">
+	  	<h1 id="word">{{word}}</h1>
+	  	<section id="definition">
+	  		<div class="arrow left">
+				<img hidden src="{% static 'randwordly/arrow.png' %}">
+	  		</div>
+		  	<div id="answers">
+		  		{% for definition in definitions %}
+		  			{% if "right_answer" in definition %}
+		  				<button class="answer" id="True">{{definition.description}}</button>
+		  			{% else %}
+		  				<button class="answer">{{definition.description}}</button>
+		  			{% endif %}
+		  		{% endfor %}
+		  	</div>
+		  	<div class="arrow right">
+				<img hidden src="{% static 'randwordly/arrow.png' %}">
+		  	</div>
+	  	</section>
+	  </div>
+  {% endblock %}
   <div class="box e">E</div>
 </div>
 <script src="{% static 'randwordly/main.js' %}"></script>

@@ -3,6 +3,26 @@
     margin: 0;
 }
 
+nav {
+    width: 100%;
+    display: flex;
+    color: #fff;
+    font-size: 1.5em;
+    grid-column: 1 / 7 ;
+    background-color: rgb(117,117,117);
+    display: flex;
+}
+
+nav > div {
+    width: 25%;
+    display: flex;
+    justify-content: center;
+}
+
+nav > div:hover{
+    background-color: 
+}
+
 .wrapper {
         display: grid;
         background-color: #fff;
@@ -28,11 +48,6 @@
     justify-content: center;
 }
 
-.nav {
-    grid-column: 1 / 7 ;
-    background-color: rgb(117,117,117);
-    display: flex;
-}
 
 .guess{
     background-image: radial-gradient(closest-side ellipse at center, white, rgb(242, 248, 252));

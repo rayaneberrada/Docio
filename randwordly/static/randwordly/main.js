@@ -1,5 +1,4 @@
-const answers = document.getElementsByTagName("button")
-document.getElementById("demo").innerHTML = "My First JavaScript";
+const answers = document.getElementsByTagName("button");
 const xhttp = new XMLHttpRequest(); 
 const arrows = document.getElementsByClassName("arrow");
 

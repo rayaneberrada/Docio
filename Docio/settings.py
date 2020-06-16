@@ -37,7 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'randwordly.apps.RandwordlyConfig'
+    'randwordly.apps.RandwordlyConfig',
+    'registration.apps.RegistrationConfig',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -106,6 +108,9 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+#Template
+CRISPY_TEMPLATE_PACK="bootstrap4"
+
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
@@ -124,3 +129,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"
+
+
+#mail server
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+MAILER_EMAIL_BACKEND = EMAIL_BACKEND
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_PASSWORD = 'MH6xPs3ifNPivWy'
+EMAIL_HOST_USER = 'dociofficiel@gmail.com'
+EMAIL_PORT = 465
+EMAIL_USE_SSL = True
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
