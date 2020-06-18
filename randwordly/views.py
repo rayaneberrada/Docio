@@ -10,7 +10,7 @@ def index(request):
     number_checked = []
     definitions = []
     random_definitions = []
-    word_id = random.randint(1, 353817)
+    word_id = random.randint(1, 9000)
     number_checked.append(word_id)
     word = Mot.objects.filter(pk=word_id).first()
     definition = str(Definition.objects.filter(mot=word_id).first()).capitalize()
@@ -18,7 +18,7 @@ def index(request):
     #Right definition
 
     while len(number_checked) < 4 and word_id in number_checked:
-        word_id = random.randint(1, 353817)
+        word_id = random.randint(1, 9000)
         if word_id not in number_checked:
             definition = Definition.objects.filter(mot=word_id).first()
             definitions.append({"description" :  str(definition).capitalize()})

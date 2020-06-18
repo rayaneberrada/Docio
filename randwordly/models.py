@@ -3,7 +3,6 @@
 #   * Rearrange models' order
 #   * Make sure each model has one field with primary_key=True
 #   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
-#   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
 
@@ -13,7 +12,6 @@ class Antonyme(models.Model):
     antonyme = models.ForeignKey('Mot', models.DO_NOTHING, db_column='antonyme', related_name='antonyme')
 
     class Meta:
-        managed = False
         db_table = 'antonyme'
 
 
@@ -26,7 +24,6 @@ class Definition(models.Model):
         return self.description
 
     class Meta:
-        managed = False
         db_table = 'definition'
 
 
@@ -36,7 +33,6 @@ class ListeApprentissage(models.Model):
     mot = models.ForeignKey('Mot', models.DO_NOTHING)
 
     class Meta:
-        managed = False
         db_table = 'liste_apprentissage'
 
 
@@ -50,7 +46,6 @@ class Mot(models.Model):
         return self.orthographe
 
     class Meta:
-        managed = False
         db_table = 'mot'
 
 
@@ -60,7 +55,6 @@ class Note(models.Model):
     note = models.CharField(max_length=2000, blank=True, null=True)
 
     class Meta:
-        managed = False
         db_table = 'note'
 
 
@@ -72,7 +66,6 @@ class Reponse(models.Model):
     taux_validation = models.IntegerField()
 
     class Meta:
-        managed = False
         db_table = 'reponse'
 
 
@@ -81,7 +74,6 @@ class Synonyme(models.Model):
     syonyme = models.ForeignKey(Mot, models.DO_NOTHING, db_column='syonyme', related_name='synonyme')
 
     class Meta:
-        managed = False
         db_table = 'synonyme'
 
 
@@ -90,7 +82,6 @@ class TermeDefinition(models.Model):
     terme = models.ForeignKey('UniteTerminologique', models.DO_NOTHING)
 
     class Meta:
-        managed = False
         db_table = 'terme_definition'
 
 
@@ -99,7 +90,6 @@ class UniteTerminologique(models.Model):
     description = models.CharField(max_length=500, blank=True, null=True)
 
     class Meta:
-        managed = False
         db_table = 'unite_terminologique'
 
 
@@ -110,5 +100,4 @@ class Utilisateur(models.Model):
     date_inscription = models.DateTimeField()
 
     class Meta:
-        managed = False
         db_table = 'utilisateur'
