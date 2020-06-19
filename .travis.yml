@@ -1,0 +1,25 @@
+language: python
+
+python:
+  - "3.6.9"
+
+services:
+  - mysql
+
+test:
+  adapter: mysql2
+  database: dictionnary
+  username: root
+  encoding: utf8
+
+before_install:
+    - sudo mysql -u root -e "CREATE USER 'rayane' IDENTIFIED BY 'i77EWEsN';"
+    - sudo mysql -u root -e 'CREATE DATABASE `dictionnary`;'
+    - sudo mysql -u root -e 'GRANT ALL ON *.* TO `rayane`;'
+    - sudo mysql -u root -e 'FLUSH PRIVILEGES;'
+  
+install:
+  - pip3 install -r requirements.txt
+
+script:
+  - ./manage.py test
