@@ -1,0 +1,13 @@
+language: python
+
+addons:
+  firefox: latest
+
+services:
+  - mysql
+  
+install:
+  - pip install requirements.txt
+
+script:
+  - ./manage.py test
