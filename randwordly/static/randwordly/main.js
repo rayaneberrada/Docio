@@ -4,9 +4,24 @@ const arrows = document.getElementsByClassName("arrow");
 
 
 // manage fav animation and request
-const fav = document.getElementsByClassName("fav");
+const fav = document.getElementsByClassName("fav")[0];
+console.log(fav)
+const add_to_liste = function (self) {
+	let form_data = new FormData();
+	form_data.append('word', document.getElementById("word").textContent);
 
+	liste_options = document.getElementsByTagName('select')[0]
+	for(let option in liste_options){
+		if (liste_options[option].selected == true) {
+			form_data.append("listes", liste_options[option].value);
+			xhttp.open("POST", "http://127.0.0.1:8000/add_favorite", true);
+			xhttp.send(form_data);
+			break;	
+		}
+	}
+}
 
+fav.addEventListener('click', add_to_liste)
 // manage moving backward and forward on answers
 const random_definition = function (self) {
 	xhttp.open("POST", "http://127.0.0.1:8000/", true);

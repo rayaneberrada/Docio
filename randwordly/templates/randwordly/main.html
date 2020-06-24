@@ -31,7 +31,8 @@
 	  <div class="guess">
 	  	<div id="liste">
 		  	<label style="font-size: 2em;">Liste: </label>
-		  	<select>	
+		  	<select class="liste">
+		  		<option value="test">test</option>	
 		  	{% for liste in listes %}
 				<option value={{liste}}>{{liste}}</option>	
 		  	{% endfor %}
@@ -40,7 +41,7 @@
 	  	</div>
 	  	<div id="word_row">
 	  		<h1 id="word">{{word}}</h1>
-			<i class="material-icons" style="font-size:36px">star_border</i>
+			<i class="material-icons fav" style="font-size:36px">star_border</i>
 		</div>	
 	  	<section id="definition">
 	  		<div class="arrow left">

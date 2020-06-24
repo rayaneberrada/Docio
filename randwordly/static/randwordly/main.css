@@ -48,6 +48,9 @@ nav > div:hover{
     justify-content: center;
 }
 
+#word_row > i:hover{
+    cursor: pointer;
+}
 
 .guess{
     background-image: radial-gradient(closest-side ellipse at center, white, rgb(242, 248, 252));

@@ -6,6 +6,7 @@ from .models import Mot, Definition, ListeApprentissage
 from django.contrib.auth.models import User
 
 import random
+import json
 
 @csrf_exempt
 def index(request):
@@ -47,3 +48,7 @@ def index(request):
         return JsonResponse(context)
 
     return render(request, 'randwordly/main.html', context)
+
+@csrf_exempt
+def add_to_liste(request):
+    print(request.POST)
