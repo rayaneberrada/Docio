@@ -3,6 +3,11 @@ const xhttp = new XMLHttpRequest();
 const arrows = document.getElementsByClassName("arrow");
 
 
+// manage fav animation and request
+const fav = document.getElementsByClassName("fav");
+
+
+// manage moving backward and forward on answers
 const random_definition = function (self) {
 	xhttp.open("POST", "http://127.0.0.1:8000/", true);
 	xhttp.send();
@@ -82,3 +87,4 @@ for (const i in answers){
 		answers[i].addEventListener("click", random_definition);
 	}
 }
+

@@ -3,6 +3,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&display=swap" rel="stylesheet"> 
 	<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300&display=swap" rel="stylesheet"> 
 	<link rel="stylesheet" type="text/css" href="{% static 'randwordly/main.css' %}">
@@ -26,7 +29,19 @@
   </nav>
   {% block content %}
 	  <div class="guess">
-	  	<h1 id="word">{{word}}</h1>
+	  	<div id="liste">
+		  	<label style="font-size: 2em;">Liste: </label>
+		  	<select>	
+		  	{% for liste in listes %}
+				<option value={{liste}}>{{liste}}</option>	
+		  	{% endfor %}
+		  	</select>
+	  		
+	  	</div>
+	  	<div id="word_row">
+	  		<h1 id="word">{{word}}</h1>
+			<i class="material-icons" style="font-size:36px">star_border</i>
+		</div>	
 	  	<section id="definition">
 	  		<div class="arrow left">
 				<img hidden src="{% static 'randwordly/arrow.png' %}">

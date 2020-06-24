@@ -5,6 +5,7 @@
 #   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Antonyme(models.Model):
@@ -28,9 +29,12 @@ class Definition(models.Model):
 
 
 class ListeApprentissage(models.Model):
-    utilisateur = models.ForeignKey('Utilisateur', models.DO_NOTHING)
-    nom = models.CharField(max_length=30)
+    utilisateur = models.ForeignKey(User, models.DO_NOTHING)
+    nom = models.CharField(max_length=500)
     mot = models.ForeignKey('Mot', models.DO_NOTHING)
+
+    def __str__(self):
+        return self.nom
 
     class Meta:
         db_table = 'liste_apprentissage'
@@ -50,7 +54,7 @@ class Mot(models.Model):
 
 
 class Note(models.Model):
-    utilisateur = models.ForeignKey('Utilisateur', models.DO_NOTHING)
+    utilisateur = models.ForeignKey(User, models.DO_NOTHING)
     mot = models.ForeignKey(Mot, models.DO_NOTHING)
     note = models.CharField(max_length=2000, blank=True, null=True)
 
@@ -59,7 +63,7 @@ class Note(models.Model):
 
 
 class Reponse(models.Model):
-    utilisateur = models.ForeignKey('Utilisateur', models.DO_NOTHING)
+    utilisateur = models.ForeignKey(User, models.DO_NOTHING)
     definition = models.ForeignKey(Definition, models.DO_NOTHING)
     reponse = models.IntegerField()
     date = models.DateTimeField()
@@ -91,13 +95,3 @@ class UniteTerminologique(models.Model):
 
     class Meta:
         db_table = 'unite_terminologique'
-
-
-class Utilisateur(models.Model):
-    nom = models.CharField(max_length=20)
-    mail = models.CharField(max_length=40)
-    mot_de_passe = models.CharField(max_length=40)
-    date_inscription = models.DateTimeField()
-
-    class Meta:
-        db_table = 'utilisateur'

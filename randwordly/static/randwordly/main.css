@@ -61,6 +61,11 @@ nav > div:hover{
     margin-top: 10px;
 }
 
+#word_row {
+    display: flex;
+    justify-content: center;
+}
+
 #definition {
     display: flex;
 }
@@ -110,4 +115,5 @@ img{
 .e {
     grid-column: 1 / 7;
 }
+
 
