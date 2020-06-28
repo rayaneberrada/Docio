@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+       MYSQL_DATABASE: 'dictionnary'
+       MYSQL_USER: 'rayane'
+       MYSQL_PASSWORD: 'i77EWEsN'
+       MYSQL_ROOT_PASSWORD: 'i77EWEsN'
+  web:
+    build: .
+    command: bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/Docio
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db

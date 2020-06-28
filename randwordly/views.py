@@ -23,13 +23,14 @@ def index(request):
     definition = str(Definition.objects.filter(mot=word_id).first()).capitalize()
     definitions.append({"description" : definition, "right_answer" : True})
     #Right definition
+
     if request.user.is_authenticated:
         user_liste = set([l.nom for l in ListeApprentissage.objects.filter(utilisateur=request.user.id)])
         if "random" not in user_liste:
             random_liste_creation = ListeApprentissage(utilisateur=request.user, nom="random", mot=Mot.objects.get(pk=1))
             random_liste_creation.save()
             user_liste = set([l.nom for l in ListeApprentissage.objects.filter(utilisateur=request.user.id)])
-        context["listes"] = user_liste
+        context["listes"] = list(user_liste)
 
     while len(number_checked) < 4 and word_id in number_checked:
         word_id = random.randint(1, 9000)
@@ -45,10 +46,21 @@ def index(request):
     context["definitions"] = random_definitions
 
     if request.method == 'POST':
+        context["word"] = str(word)
         return JsonResponse(context)
 
     return render(request, 'randwordly/main.html', context)
 
 @csrf_exempt
 def add_to_liste(request):
-    print(request.POST)
+    word = Mot.objects.filter(id=request.POST.get("word_id"))
+    list_exist = ListeApprentissage.objects.filter(utilisateur=request.user, nom=request.POST.get("listes"))
+    if not word or not list_exist:
+        return HttpResponse(status=400)
+
+    ListeApprentissage.objects.create(
+            utilisateur=request.user,
+            nom=request.POST.get("listes"),
+            mot=word.first()
+            ).save()
+    return HttpResponse(status=200)

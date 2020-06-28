@@ -62,11 +62,12 @@ class testAddToListe(TestCase):
             ).save()
 
     def test_add_word_to_list(self):
+        self.login = self.client.login(username='test', password='Test1234')
         liste = ListeApprentissage.objects.filter(utilisateur=self.user)
         self.assertEqual(len(liste), 1)
 
         datas = {
-                'word': 'test2',
+                'word_id': 2,
                 'listes': 'test',
                 }
         response = self.client.post(reverse('randwordly:add_favorite'), datas)
@@ -75,15 +76,16 @@ class testAddToListe(TestCase):
         self.assertEqual(len(liste), 2)
 
     def test_fail_to_add(self):
+        self.login = self.client.login(username='test', password='Test1234')
         datas = {
-                'word': 'DoesntExistInDB',
+                'word_id': 100,
                 'listes': 'test',
                 }
         response = self.client.post(reverse('randwordly:add_favorite'), datas)
         self.assertEqual(response.status_code, 400)
 
         datas = {
-                'word': 'test2',
+                'word_id': 2,
                 'listes': 'DoesntExistInDB',
                 }
         response = self.client.post(reverse('randwordly:add_favorite'), datas)

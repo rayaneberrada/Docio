@@ -8,7 +8,7 @@ const fav = document.getElementsByClassName("fav")[0];
 console.log(fav)
 const add_to_liste = function (self) {
 	let form_data = new FormData();
-	form_data.append('word', document.getElementById("word").textContent);
+	form_data.append('word_id', document.getElementsByClassName("word")[0].id);
 
 	liste_options = document.getElementsByTagName('select')[0]
 	for(let option in liste_options){
@@ -20,8 +20,9 @@ const add_to_liste = function (self) {
 		}
 	}
 }
-
-fav.addEventListener('click', add_to_liste)
+if (typeof fav !== 'undefined'){
+	fav.addEventListener('click', add_to_liste)
+}
 // manage moving backward and forward on answers
 const random_definition = function (self) {
 	xhttp.open("POST", "http://127.0.0.1:8000/", true);
@@ -29,7 +30,7 @@ const random_definition = function (self) {
 
 	xhttp.onreadystatechange = function() {
   		if (this.readyState == 4 && this.status == 200) {
-    		const response = JSON.parse(xhttp.responseText)
+    		const response = JSON.parse(xhttp.responseText);
 			arrows[0].children[0].removeAttribute("hidden");
 			arrows[0].children[0].addEventListener("click", arrow_def_update);
 			arrows[1].children[0].hidden = true;
@@ -45,11 +46,11 @@ const random_definition = function (self) {
 			}
 			update_def(response);
   		}
-	};
+	}
 };
 
 const update_def = (response) => {
-	document.getElementById("word").innerHTML = response["word"];
+	document.getElementsByClassName("word")[0].innerHTML = response["word"];
 	for (let i in answers){
 		answers[i].removeAttribute("id");
 		answers[i].innerHTML = response["definitions"][i]["description"];
@@ -80,7 +81,7 @@ const arrow_def_update = (event) => {
 
 const save_def_in_memory = () => {
 	def_in_memory = {
-		"word": document.getElementById("word").innerHTML,
+		"word": document.getElementsByClassName("word")[0].innerHTML,
 		"definitions": []
 	}
 	for (let i = 0; i < 4; i++){

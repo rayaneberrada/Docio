@@ -29,19 +29,21 @@
   </nav>
   {% block content %}
 	  <div class="guess">
-	  	<div id="liste">
-		  	<label style="font-size: 2em;">Liste: </label>
-		  	<select class="liste">
-		  		<option value="test">test</option>	
-		  	{% for liste in listes %}
-				<option value={{liste}}>{{liste}}</option>	
-		  	{% endfor %}
-		  	</select>
-	  		
-	  	</div>
+	  	{% if user.is_authenticated %}
+		  	<div id="liste">
+			  	<label style="font-size: 2em;">Liste: </label>
+			  	<select class="liste">
+			  	{% for liste in listes %}
+					<option value={{liste}}>{{liste}}</option>	
+			  	{% endfor %}
+			  	</select>
+		  	</div>
+		{% endif %}
 	  	<div id="word_row">
-	  		<h1 id="word">{{word}}</h1>
-			<i class="material-icons fav" style="font-size:36px">star_border</i>
+	  		<h1 class="word" id={{word.id}}>{{word}}</h1>
+	  		{% if user.is_authenticated %}
+				<i class="material-icons fav" style="font-size:36px">star_border</i>
+			{% endif %}
 		</div>	
 	  	<section id="definition">
 	  		<div class="arrow left">
