@@ -31,7 +31,6 @@ class Definition(models.Model):
 class ListeApprentissage(models.Model):
     utilisateur = models.ForeignKey(User, models.DO_NOTHING)
     nom = models.CharField(max_length=500)
-    mot = models.ForeignKey('Mot', models.DO_NOTHING)
 
     def __str__(self):
         return self.nom
@@ -52,6 +51,14 @@ class Mot(models.Model):
     class Meta:
         db_table = 'mot'
 
+
+class MotListe(models.Model):
+    mot = models.ForeignKey(Mot, models.DO_NOTHING)
+    liste = models.ForeignKey(ListeApprentissage, models.DO_NOTHING)
+
+    class Meta:
+        managed = True
+        db_table = 'mot_liste'
 
 class Note(models.Model):
     utilisateur = models.ForeignKey(User, models.DO_NOTHING)

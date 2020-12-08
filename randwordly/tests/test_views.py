@@ -5,7 +5,7 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 
-from randwordly.models import Mot, ListeApprentissage
+from randwordly.models import Mot, ListeApprentissage, MotListe
 
 class TestIndex(TestCase):
     """docstring for TestIndex"""
@@ -43,23 +43,22 @@ class testAddToListe(TestCase):
         self.user.set_password('Test1234')
         self.user.save()
         word = Mot.objects.create(
+            id= 1,
             orthographe="test",
             nature_grammaticale = "verbe",
             genre = "m",
             etymologie="Inconnue"
             )
         word.save()
-        test_word = Mot.objects.create(
-            orthographe="test2",
-            nature_grammaticale = "verbe",
-            genre = "m",
-            etymologie="Inconnue"
-            ).save()
         ListeApprentissage.objects.create(
+            id= 1,
             utilisateur=self.user,
             nom="test",
-            mot=word
             ).save()
+        MotListe.objects.create(
+            mot_id = 1,
+            liste_id = 1
+            )
 
     def test_add_word_to_list(self):
         self.login = self.client.login(username='test', password='Test1234')
@@ -67,13 +66,14 @@ class testAddToListe(TestCase):
         self.assertEqual(len(liste), 1)
 
         datas = {
-                'word_id': 2,
+                'word_id': 1,
                 'listes': 'test',
                 }
         response = self.client.post(reverse('randwordly:add_favorite'), datas)
-        liste = ListeApprentissage.objects.filter(utilisateur=self.user)
+        liste = MotListe.objects.get(id=1)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(liste), 2)
+        self.assertEqual(liste.mot_id, 1)
+        self.assertEqual(liste.liste_id, 1)
 
     def test_fail_to_add(self):
         self.login = self.client.login(username='test', password='Test1234')
@@ -90,3 +90,44 @@ class testAddToListe(TestCase):
                 }
         response = self.client.post(reverse('randwordly:add_favorite'), datas)
         self.assertEqual(response.status_code, 400)
+
+class testCreateList(TestCase):
+    @classmethod
+    def setUpTestData(self):
+        self.user = User.objects.create(username='test', email='test@test.com', is_active=True)
+        self.user.set_password('Test1234')
+        self.user.save()
+        word = Mot.objects.create(
+        	id = 3,
+            orthographe = "test",
+            nature_grammaticale = "verbe",
+            genre = "m",
+            etymologie="Inconnue"
+            )
+        word.save()
+
+        liste = ListeApprentissage.objects.create(
+            utilisateur=self.user,
+            nom = "existing_liste",
+            )
+        liste.save()
+
+        list_word = MotListe.objects.create(
+            mot_id = word.id,
+            liste_id = liste.id
+            )
+        list_word.save()
+
+    def test_success_to_create(self):
+        self.login = self.client.login(username='test', password='Test1234')
+        datas = {
+                'new_list_name': 'list_to_create',
+                'list_chosen': ['existing_liste'],
+                }
+        response = self.client.post(reverse('randwordly:liste'), datas)
+        liste = ListeApprentissage.objects.get(nom='list_to_create')
+        check_liste_create = ListeApprentissage.objects.get(nom='list_to_create')
+        check_word_added = MotListe.objects.filter(liste_id=check_liste_create.id)
+        self.assertTrue(check_liste_create)
+        self.assertEqual(check_word_added[0].mot_id, 3)
+        self.assertEqual(response.status_code, 200)

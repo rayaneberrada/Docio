@@ -1,0 +1,43 @@
+{% extends 'randwordly/main.html' %}
+{% load static %}
+
+{% block css %}
+	 <link rel="stylesheet" type="text/css" href="{% static 'randwordly/liste.css' %}">
+{% endblock css %}
+
+{% block content %}
+	{% if post_response %}
+		<p>{{post_response}}</p>
+	{% endif %}
+	<section class="liste_manager">
+		<form action="{% url 'randwordly:liste' user.username%}" class="creation" method="post">
+			<p>Création lsite de travail</p>
+			<label>Choisi des liste de référence: </label>
+			<select name="list_chosen" id="list_chosen" multiple required>
+				{% for liste in listes %}
+					<option value="{{liste}}" name="list_chosen">{{liste}}</option>
+				{% endfor %}
+			</select>
+			<label>Choisi un nom <abbr title="Entre 4 et 15 caractères">*</abbr></label>
+			<input type="" name="new_list_name" minlength="4" maxlength="15" required>
+			<input type="submit" value="Créer">
+		</form>
+
+		<div class="manage">
+			<label>Choisi une liste à modifier</label>
+				<select name="cars" id="cars" multiple>
+				{% for liste in user_listes %}
+					<option value={{liste}}>{{liste}}</option>
+				{% endfor %}
+			</select>
+			<div class="choice">
+				<button> Modifier </button>
+				<button> Supprimer </button>			
+			</div>
+		</div>
+	</section>
+{% endblock content %}
+
+{% block javascript %}
+
+{% endblock javascript %}

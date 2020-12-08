@@ -1,0 +1,21 @@
+.liste_manager {
+	font-family: 'Cormorant Garamond', serif;
+    grid-column: 1 / 7 ;
+}
+
+.creation {
+	display: flex;
+	flex-direction: column;
+	width: 33%;
+	margin-left: 34.5%;
+	font-size: 2em;
+}
+
+.manage {
+	display: flex;
+	flex-direction: column;
+	margin-top: 50px;
+	margin-left: 34.5%;
+	width: 33%;
+	font-size: 2em;
+}

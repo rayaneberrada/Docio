@@ -1,9 +1,11 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
-from .models import Mot, Definition, ListeApprentissage
+from .models import Mot, Definition, ListeApprentissage, MotListe
 from django.contrib.auth.models import User
+from django.urls import reverse
 
 import random
 import json
@@ -27,7 +29,7 @@ def index(request):
     if request.user.is_authenticated:
         user_liste = set([l.nom for l in ListeApprentissage.objects.filter(utilisateur=request.user.id)])
         if "random" not in user_liste:
-            random_liste_creation = ListeApprentissage(utilisateur=request.user, nom="random", mot=Mot.objects.get(pk=1))
+            random_liste_creation = ListeApprentissage(utilisateur=request.user, nom="random")
             random_liste_creation.save()
             user_liste = set([l.nom for l in ListeApprentissage.objects.filter(utilisateur=request.user.id)])
         context["listes"] = list(user_liste)
@@ -58,9 +60,46 @@ def add_to_liste(request):
     if not word or not list_exist:
         return HttpResponse(status=400)
 
-    ListeApprentissage.objects.create(
-            utilisateur=request.user,
-            nom=request.POST.get("listes"),
-            mot=word.first()
+    liste = ListeApprentissage.objects.get(nom=request.POST.get("listes"))
+    MotListe.objects.create(
+            liste_id=liste.id,
+            mot_id=word.first().id
             ).save()
     return HttpResponse(status=200)
+
+@login_required
+def manage_account(request, username):
+    return render(request, 'randwordly/account.html')
+
+@csrf_exempt
+@login_required
+def manage_list(request, username):
+    root = User.objects.get(id=1)
+    user_listes = listes = [liste["nom"] for liste in ListeApprentissage.objects.filter(utilisateur=request.user).values('nom').distinct()]
+    listes = [liste["nom"] for liste in ListeApprentissage.objects.filter(utilisateur=root).values('nom').distinct()]
+    context = {"listes":sorted(listes), "user_listes":user_listes}
+    if request.POST:
+        alreay_exist = ListeApprentissage.objects.filter(nom=request.POST.get("new_list_name"))
+        if alreay_exist:
+            context["post_response"] = "liste existe déjà"
+            return render(request, 'randwordly/liste.html', context)
+
+        ListeApprentissage.objects.create(
+                    utilisateur = request.user,
+                    nom = request.POST.get("new_list_name"),
+                    ).save()
+        for liste in request.POST.getlist("list_chosen"):
+            new_liste = ListeApprentissage.objects.get(nom=request.POST.get("new_list_name"))
+            liste = ListeApprentissage.objects.get(nom=liste)
+            words_in_liste = MotListe.objects.filter(liste_id=liste.id)
+            for word in words_in_liste:
+                MotListe.objects.create(
+                    mot_id = word.mot_id,
+                    liste_id = new_liste.id,
+                    ).save()
+        context["post_response"] = "liste ajoutée"
+        context["user_listes"] = [liste["nom"] for liste in ListeApprentissage.objects.filter(utilisateur=request.user).values('nom').distinct()]
+        return render(request, 'randwordly/liste.html', context)
+
+    else:
+        return render(request, 'randwordly/liste.html', context)
